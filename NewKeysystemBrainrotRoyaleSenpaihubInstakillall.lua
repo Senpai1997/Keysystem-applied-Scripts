@@ -91,16 +91,15 @@ end
 
 -- Verify key with server
 local function verifyKey(key)
-    -- IMPORTANT: Replaced with your actual website URL
-    -- Added &t=tick() to prevent Roblox from caching the "invalid" result
-    local url = "https://robloxpastebin.com/?verify=1&key=" .. key .. "&t=" .. tostring(tick())
+    -- UPDATED URL WITH NO-CACHE
+    local url = "https://robloxpastebin.com/?verify=1&key=" .. key .. "&nocache=" .. os.time()
     
     local success, response = pcall(function()
         return game:HttpGet(url)
     end)
     
     if success then
-        -- Clean the response (Remove hidden spaces or newlines)
+        -- Remove any whitespace or newlines
         response = string.gsub(response, "^%s*(.-)%s*$", "%1")
         
         if response == "valid" then
@@ -110,8 +109,8 @@ local function verifyKey(key)
         elseif response == "used" then
             return false, "used"
         else
-            -- Debug print to see what exactly is being returned
-            print("Server returned: '" .. tostring(response) .. "'") 
+            -- Debug
+            print("Server returned: " .. tostring(response))
             return false, "invalid"
         end
     else
@@ -136,7 +135,7 @@ local function initKeySystem()
     
     -- Handle Get Key button
     ui.GetKeyButton.MouseButton1Click:Connect(function()
-        -- Website URL to get key
+        -- UPDATED URL to your site
         local keyWebsite = "https://robloxpastebin.com/keysystem"
         
         -- Copy URL to clipboard
@@ -145,7 +144,7 @@ local function initKeySystem()
             ui.StatusLabel.Text = "Key website URL copied to clipboard! Paste in your browser."
             ui.StatusLabel.TextColor3 = Color3.fromRGB(0, 255, 0)
         else
-            ui.StatusLabel.Text = "Clipboard not supported on this executor."
+            ui.StatusLabel.Text = "Clipboard not supported."
             ui.StatusLabel.TextColor3 = Color3.fromRGB(255, 0, 0)
         end
     end)
