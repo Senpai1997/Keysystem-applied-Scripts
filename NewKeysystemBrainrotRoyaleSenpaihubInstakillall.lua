@@ -60,7 +60,7 @@ local function createKeyUI()
     Title.Size = UDim2.new(1, 0, 0, 35)
     Title.BackgroundColor3 = Color3.fromRGB(30, 41, 59)
     Title.BorderSizePixel = 0
-    Title.Text = "🔐 Key System (DIAGNOSTIC MODE)"
+    Title.Text = "🔐 Key System"
     Title.TextColor3 = Color3.fromRGB(255, 255, 255)
     Title.TextSize = 14
     Title.Font = Enum.Font.GothamBold
