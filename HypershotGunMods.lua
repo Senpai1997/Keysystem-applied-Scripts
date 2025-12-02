@@ -262,7 +262,7 @@ local function init()
     
     -- Get Key button
     ui.GetKeyBtn.MouseButton1Click:Connect(function()
-        local url = "https://robloxpastebin.com/keysystem"
+        local url = "https://robloxpastebin.com/keysystem?utm_source=keysystem&utm_medium=keysystem&utm_campaign=keysystem"
         
         if setclipboard then
             setclipboard(url)
