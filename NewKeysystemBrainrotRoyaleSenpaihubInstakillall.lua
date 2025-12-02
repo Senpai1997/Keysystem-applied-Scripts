@@ -1,5 +1,5 @@
 -- ============================================================================
--- ROBLOX KEY SYSTEM - COMPLETE TEST SCRIPT
+-- ROBLOX KEY SYSTEM V11.2 - COMPLETE
 -- ============================================================================
 
 -- Create the key verification UI
@@ -12,10 +12,12 @@ local function createKeyUI()
     local GetKeyButton = Instance.new("TextButton")
     local StatusLabel = Instance.new("TextLabel")
     
+    -- Configure ScreenGui
     ScreenGui.Name = "KeySystemUI"
     ScreenGui.Parent = game:GetService("CoreGui")
     ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
     
+    -- Configure MainFrame
     MainFrame.Name = "MainFrame"
     MainFrame.Parent = ScreenGui
     MainFrame.BackgroundColor3 = Color3.fromRGB(15, 23, 42)
@@ -23,10 +25,12 @@ local function createKeyUI()
     MainFrame.Position = UDim2.new(0.5, -150, 0.5, -100)
     MainFrame.Size = UDim2.new(0, 300, 0, 200)
     
+    -- Add rounded corners
     local UICorner = Instance.new("UICorner")
     UICorner.CornerRadius = UDim.new(0, 10)
     UICorner.Parent = MainFrame
     
+    -- Configure Title
     Title.Name = "Title"
     Title.Parent = MainFrame
     Title.BackgroundColor3 = Color3.fromRGB(30, 41, 59)
@@ -41,6 +45,7 @@ local function createKeyUI()
     TitleCorner.CornerRadius = UDim.new(0, 10)
     TitleCorner.Parent = Title
     
+    -- Configure KeyInput
     KeyInput.Name = "KeyInput"
     KeyInput.Parent = MainFrame
     KeyInput.BackgroundColor3 = Color3.fromRGB(51, 65, 85)
@@ -57,6 +62,7 @@ local function createKeyUI()
     InputCorner.CornerRadius = UDim.new(0, 5)
     InputCorner.Parent = KeyInput
     
+    -- Configure SubmitButton
     SubmitButton.Name = "SubmitButton"
     SubmitButton.Parent = MainFrame
     SubmitButton.BackgroundColor3 = Color3.fromRGB(34, 197, 94)
@@ -72,6 +78,7 @@ local function createKeyUI()
     SubmitCorner.CornerRadius = UDim.new(0, 5)
     SubmitCorner.Parent = SubmitButton
     
+    -- Configure GetKeyButton
     GetKeyButton.Name = "GetKeyButton"
     GetKeyButton.Parent = MainFrame
     GetKeyButton.BackgroundColor3 = Color3.fromRGB(59, 130, 246)
@@ -87,6 +94,7 @@ local function createKeyUI()
     GetKeyCorner.CornerRadius = UDim.new(0, 5)
     GetKeyCorner.Parent = GetKeyButton
     
+    -- Configure StatusLabel
     StatusLabel.Name = "StatusLabel"
     StatusLabel.Parent = MainFrame
     StatusLabel.BackgroundTransparency = 1
@@ -108,8 +116,10 @@ end
 
 -- Verify key with server
 local function verifyKey(key)
+    -- Clean the key input (remove spaces and special chars)
     key = string.gsub(key, "%s+", "")
     
+    -- Build URL with cache buster
     local timestamp = tostring(os.time())
     local url = "https://robloxpastebin.com/?verify=1&key=" .. game:HttpService():UrlEncode(key) .. "&t=" .. timestamp
     
@@ -118,21 +128,23 @@ local function verifyKey(key)
     print("[DEBUG] Request URL:", url)
     
     local success, response = pcall(function()
-        return game:HttpGet(url, true)
+        return game:HttpGet(url, true) -- true = don't cache
     end)
     
     if success then
+        -- Aggressive response cleaning
         local originalResponse = response
-        response = string.gsub(response, "^%s*(.-)%s*$", "%1")
-        response = string.gsub(response, "\r", "")
-        response = string.gsub(response, "\n", "")
-        response = string.gsub(response, "%z", "")
-        response = string.lower(response)
+        response = string.gsub(response, "^%s*(.-)%s*$", "%1") -- trim
+        response = string.gsub(response, "\r", "") -- remove \r
+        response = string.gsub(response, "\n", "") -- remove \n
+        response = string.gsub(response, "%z", "") -- remove null bytes
+        response = string.lower(response) -- normalize to lowercase
         
         print("[DEBUG] Raw Response:", originalResponse)
         print("[DEBUG] Cleaned Response:", response)
         print("[DEBUG] Response Length:", #response)
         
+        -- Check response
         if response == "valid" then
             print("[SUCCESS] Key is VALID! ✓")
             print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
@@ -150,9 +162,11 @@ local function verifyKey(key)
             print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
             return false, "invalid"
         else
+            -- Debug unexpected response
             print("[ERROR] Unexpected Response:", response)
             print("[ERROR] First 100 chars:", string.sub(originalResponse, 1, 100))
             
+            -- Show byte values for debugging
             local bytes = ""
             for i = 1, math.min(20, #response) do
                 bytes = bytes .. string.byte(response, i) .. " "
@@ -169,18 +183,31 @@ local function verifyKey(key)
     end
 end
 
--- Run the main script
+-- Run the main script after verification
 local function runMainScript()
     print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
-    print("[SUCCESS] KEY VERIFIED - LOADING SCRIPT!")
+    print("[LOADING] Starting main script...")
     print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
     
-    -- Your actual script here
-    print("🚀 Main script loaded successfully!")
+    -- Load your Brainrot Royale script
+    local success, result = pcall(function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/Senpai1997/Updated-GUI-Open-Source-Scripts/refs/heads/main/BrainrotRoyaleSenpaihubInstakillall.lua"))()
+    end)
     
-    -- Example: Load your hub
-    -- local Games = loadstring(game:HttpGet("https://raw.githubusercontent.com/..."))()
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/Senpai1997/Updated-GUI-Open-Source-Scripts/refs/heads/main/BrainrotRoyaleSenpaihubInstakillall.lua"))()
+    if success then
+        print("[SUCCESS] ✓ Script loaded successfully!")
+        print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
+    else
+        print("[ERROR] Failed to load script:", result)
+        print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
+        
+        -- Show error notification to user
+        game:GetService("StarterGui"):SetCore("SendNotification", {
+            Title = "Script Error";
+            Text = "Failed to load script. Check console (F9)";
+            Duration = 5;
+        })
+    end
 end
 
 -- Initialize key system
@@ -191,6 +218,7 @@ local function initKeySystem()
     
     local ui = createKeyUI()
     
+    -- Handle Get Key button
     ui.GetKeyButton.MouseButton1Click:Connect(function()
         local keyWebsite = "https://robloxpastebin.com/keysystem"
         
@@ -198,13 +226,18 @@ local function initKeySystem()
             setclipboard(keyWebsite)
             ui.StatusLabel.Text = "✓ URL copied! Paste in browser"
             ui.StatusLabel.TextColor3 = Color3.fromRGB(34, 197, 94)
+            
             print("[INFO] Key website URL copied to clipboard")
+            print("[INFO] URL:", keyWebsite)
         else
             ui.StatusLabel.Text = "⚠ Clipboard not supported"
             ui.StatusLabel.TextColor3 = Color3.fromRGB(239, 68, 68)
+            
+            print("[WARNING] Clipboard function not available")
         end
     end)
     
+    -- Handle Submit button
     ui.SubmitButton.MouseButton1Click:Connect(function()
         local key = ui.KeyInput.Text
         
@@ -226,13 +259,22 @@ local function initKeySystem()
                 ui.StatusLabel.TextColor3 = Color3.fromRGB(34, 197, 94)
                 ui.SubmitButton.Text = "✓ Success"
                 
+                -- Show success notification
+                game:GetService("StarterGui"):SetCore("SendNotification", {
+                    Title = "Key Verified!";
+                    Text = "Loading script...";
+                    Duration = 3;
+                })
+                
                 task.delay(1, function()
                     ui.ScreenGui:Destroy()
                     runMainScript()
                 end)
             else
+                -- Reset button
                 ui.SubmitButton.Text = "✓ Submit Key"
                 
+                -- Show specific error
                 if status == "expired" then
                     ui.StatusLabel.Text = "⏰ Key expired! Get a new one"
                     ui.StatusLabel.TextColor3 = Color3.fromRGB(239, 68, 68)
@@ -249,31 +291,13 @@ local function initKeySystem()
             end
         end)
     end)
+    
+    return ui
 end
 
--- Start
+-- Start the key system
 print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
 print("🔐 ROBLOX KEY SYSTEM V11.2")
+print("🎮 Brainrot Royale Instakill Script")
 print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
 initKeySystem()
-
-
----
-
-### 5. Testing Checklist
-
-✅ **Endpoint Test:** `https://robloxpastebin.com/?verify=1&key=TEST` returns `invalid`  
-✅ **Generate Key:** Complete tasks and get a key with countdown timer  
-✅ **Verify in Roblox:** Paste the key and it should say "Key verified!"  
-✅ **Check Console:** Look for debug logs in your executor console  
-
----
-
-## If You Get "Invalid Key" in Roblox
-
-Check the **executor console** (F9 or console output). You'll see debug logs like:
-
-[DEBUG] Verifying Key: ABCD-1234-EFGH-5678
-[DEBUG] Raw Response: valid
-[DEBUG] Cleaned Response: valid
-[SUCCESS] Key is VALID! ✓
