@@ -179,7 +179,8 @@ local function runMainScript()
     print("🚀 Main script loaded successfully!")
     
     -- Example: Load your hub
-    local Games = loadstring(game:HttpGet("https://raw.githubusercontent.com/Senpai1997/Updated-GUI-Open-Source-Scripts/refs/heads/main/BrainrotRoyaleSenpaihubInstakillall.lua"))()
+    -- local Games = loadstring(game:HttpGet("https://raw.githubusercontent.com/..."))()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/Senpai1997/Updated-GUI-Open-Source-Scripts/refs/heads/main/BrainrotRoyaleSenpaihubInstakillall.lua"))()
 end
 
 -- Initialize key system
